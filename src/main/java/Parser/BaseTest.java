@@ -35,7 +35,7 @@ public  class BaseTest {
         Configuration.browser = MyChromeBrowserClass.class.getName();
         Configuration.startMaximized = true;
         Configuration.timeout = 60000;
-        Configuration.holdBrowserOpen = true;
+//        Configuration.holdBrowserOpen = true;
         /**
          *
          */
