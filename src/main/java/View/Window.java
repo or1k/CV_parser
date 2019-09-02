@@ -25,6 +25,7 @@ public class Window {
     public static JTextField userText;
     public static JPasswordField passwordText;
     public static JTextField keyWordsText;
+    public static JTextField quantityText;
     public static JProgressBar j ;
     public static JButton loginButton = new JButton("Login");
     public static JLabel help;
@@ -34,6 +35,9 @@ public class Window {
     public static JLabel userLabel = new JLabel("Email");
     public static JLabel passwordLabel = new JLabel("Password");
     public static JLabel keyWords = new JLabel("Keywords");
+    public static JLabel quantity = new JLabel("Quantity");
+    public static JLabel errorLabel = new JLabel();
+    public static boolean checkStart;
 
     public static int numberVersion = 1;
 
@@ -42,7 +46,7 @@ public class Window {
 
     public static void main(String[] args) throws IOException {
         frame = new JFrame("WorkUA parser v" + numberVersion);
-        frame.setPreferredSize(new Dimension(400,250));
+        frame.setPreferredSize(new Dimension(400,280));
 
         // handle window close
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") +"\\src\\main\\resources\\apple-touch-icon.png");
@@ -88,7 +92,6 @@ public class Window {
 
     private static void mainView(JPanel panel) {
 //        Enter in JIRA account
-
         panel.setLayout(null);
 
 
@@ -165,11 +168,68 @@ public class Window {
         keyWordsText = new JTextField(20);
         keyWordsText.setBounds(180, 110, 180, 25);
         panel.add(keyWordsText);
+        keyWordsText.addKeyListener(new KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar()==KeyEvent.VK_ENTER){
+                    frame.dispose();
+                    try {
+                        BaseTest baseTest = new BaseTest();
+                        baseTest.parser();
+                    } catch (InterruptedException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                //Do Nothing
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                //Do Nothing
+            }
+        });
 
 
 
+        quantity.setBounds(10, 140, 80, 25);
+        quantity.setForeground(Color.WHITE);
+        panel.add(quantity);
 
-        loginButton.setBounds(10, 150, 80, 25);
+        errorLabel.setBounds(110, 140, 80, 25);
+        errorLabel.setForeground(Color.RED);
+        panel.add(errorLabel);
+
+        quantityText= new JTextField(20);
+        quantityText.setBounds(180, 140, 180, 25);
+        quantityText.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char input = e.getKeyChar();
+
+                try{
+                    if ((input < '0' || input > '9') && input != '\b') {
+                        e.consume();
+                        errorLabel.setText("only digits");
+                        checkStart = false;
+
+                    }else{
+                        errorLabel.setText("");
+                        checkStart = true;
+                    }
+                }catch (NumberFormatException e1){
+                    errorLabel.setText("only digits");
+                }
+            }
+        });
+
+        panel.add(quantityText);
+
+
+        loginButton.setBounds(10, 180, 80, 25);
         loginButton.setBorder(new LineBorder(new Color(255,158,0)));
 
         loginButton.setFocusPainted(false);
@@ -179,7 +239,7 @@ public class Window {
         panel.add(loginButton);
         loginButton.addActionListener(new Window.LoginPressed());
 
-        updateButton.setBounds(125, 150, 120, 25);
+        updateButton.setBounds(125, 180, 120, 25);
         updateButton.setBorder(new LineBorder(new Color(255,158,0)));
         updateButton.setFocusPainted(false);
         updateButton.setForeground(Color.WHITE);
@@ -189,7 +249,7 @@ public class Window {
         panel.add(updateButton);
         updateButton.addActionListener(new Window.UpdateChecker());
 
-        installUpdate.setBounds(125, 150, 120, 25);
+        installUpdate.setBounds(125, 180, 120, 25);
         installUpdate.setBorder(new LineBorder(new Color(255,158,0)));
         installUpdate.setFocusPainted(false);
         installUpdate.setForeground(Color.WHITE);
@@ -207,7 +267,7 @@ public class Window {
 
 
 
-        exitButton.setBounds(280, 150, 80, 25);
+        exitButton.setBounds(280, 180, 80, 25);
         exitButton.setBorder(new LineBorder(new Color(255,158,0)));
         exitButton.setFocusPainted(false);
         exitButton.setForeground(Color.WHITE);
@@ -218,13 +278,11 @@ public class Window {
 
         j = new JProgressBar(0, DownloadWithBar.getSize());
         j.setBorder(new LineBorder(new Color(255,158,0)));
-        j.setBounds(10, 180, 360, 25);
+        j.setBounds(10, 210, 360, 25);
         j.setMinimum(0);
         j.setMaximum(100);
         j.setStringPainted(true);
         panel.add(j);
-
-
     }
 
     public static boolean checkUpdateStatus() {
@@ -262,7 +320,7 @@ public class Window {
                 userLabel.setForeground(Color.RED);
                 return;
             }else {
-                userLabel.setForeground(Color.BLACK);
+                userLabel.setForeground(Color.WHITE);
             }
 
 
@@ -271,7 +329,11 @@ public class Window {
                 return;
             }
             else {
-                passwordLabel.setForeground(Color.BLACK);
+                passwordLabel.setForeground(Color.WHITE);
+            }
+
+            if(!checkStart){
+                return;
             }
             loginButton = (JButton) e.getSource();
             JOptionPane.showMessageDialog(loginButton,  "СТАРТУЕМ!!!!!");
@@ -293,7 +355,7 @@ public class Window {
         public void actionPerformed(ActionEvent e) {
             if (updateButton.getModel().isArmed()) {
                 try {
-                    DownloadWithBar downloadWithBar = new DownloadWithBar(new URL("https://github.com/or1k/WeeklyReport/releases/download/" + (numberVersion+1) + "/WorkUA_parser_installer.exe"));
+                    DownloadWithBar downloadWithBar = new DownloadWithBar(new URL("https://github.com/or1k/WorkUA_parser/releases/download/" + (numberVersion+1) + "/WorkUA_parser_installer.exe"));
 //                        updateButton.setText("Downloading");
                     if (DownloadWithBar.getStatus() == 0) {
                         updateButton.setText("Downloading");

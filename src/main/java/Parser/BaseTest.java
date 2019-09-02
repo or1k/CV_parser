@@ -27,7 +27,6 @@ public  class BaseTest {
     Map reportData = new HashMap();
     ArrayList<String> list = new ArrayList<>();
 
-
     @Test
     public  void parser() throws IOException, InterruptedException {
         /**
@@ -48,7 +47,7 @@ public  class BaseTest {
         browseSummary.findSummary(Window.keyWordsText.getText());
 
         long startRegistrationTime = System.currentTimeMillis();
-        for(int i=0;i<2;i++) {
+        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
             browseSummary.grabCards();
             //write in report
             reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
@@ -67,7 +66,6 @@ public  class BaseTest {
             reportData.clear();
         }
 
-        System.out.println(Util.getTimeforTest(startRegistrationTime));
         CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
         Util.openReport();
 
