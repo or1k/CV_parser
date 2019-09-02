@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="10" name="WorkUA_parcer" configfailurepolicy="continue">
+    <test name="WorkUA_parcer">
+        <classes>
+            <class name="Parser.ParserBot"/>
+        </classes>
+    </test>
+</suite>
