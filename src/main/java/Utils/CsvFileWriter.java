@@ -2,6 +2,7 @@ package Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -19,7 +20,7 @@ public class CsvFileWriter {
         FileWriter fileWriter = null;
 
         try {
-            fileWriter = new FileWriter(System.getProperty("user.dir") + "\\" + fileName);
+            fileWriter = new FileWriter(System.getProperty("user.dir") + "\\" + fileName, StandardCharsets.UTF_8);
 
             if(nameFlow.contains("workUA")) {
                 //Write the CSV file header
