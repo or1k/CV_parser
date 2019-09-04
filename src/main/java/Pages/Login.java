@@ -14,8 +14,7 @@ public class Login {
     private SelenideElement password = $(By.xpath("//input[@id='password']"));
     private SelenideElement profileName = $(By.xpath("//span[@class='hidden-xs nav-name']"));
     private SelenideElement submitButton = $(By.xpath("//button[@type='submit']"));
-    //hr@allkaygroup.com.ua
-    //ALK12345678
+
 
     //tari@smart-mail.top
     //1q2w3e4r
