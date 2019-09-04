@@ -1,18 +1,27 @@
 package Utils;
 
 import View.Window;
+import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class Util {
+
+    public static String reportFolderName;
+
+
 
     public static String lineToCSV(Map reportData){
         String linetoCSV;
         linetoCSV = reportData.get("URL").toString() + "," +
                 reportData.get("Title").toString() + "," +
                 reportData.get("Name").toString() + "," +
+                reportData.get("City").toString() + "," +
+                reportData.get("Age").toString() + "," +
                 reportData.get("Email").toString() + "," +
                 reportData.get("Telephone").toString();
         return  linetoCSV;
@@ -40,6 +49,32 @@ public class Util {
 
     public static String fileName(){
         return "CV_" + Window.keyWordsText.getText() + ".csv";
+    }
+
+
+    public static void createReportFolderIfNotExist(){
+        File f = new File(System.getProperty("user.dir") + "\\Report");
+        if (!f.exists() && !f.isDirectory()) {
+            f.mkdir();
+
+        }
+    }
+
+
+    public static void createActualReportFolder(String keyWords){
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+
+        File dirReport = new File(System.getProperty("user.dir") + "\\Report\\"+formatter.format(date) + "_" +keyWords + "\\");
+        if (!dirReport.exists() && !dirReport.isDirectory()) {
+            dirReport.mkdir();
+            reportFolderName = formatter.format(date) + "_" + keyWords;
+
+        }else {
+            reportFolderName = formatter.format(date) + "_" + keyWords;
+            System.out.println(reportFolderName);
+        }
+
     }
 
 }

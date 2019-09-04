@@ -12,15 +12,19 @@ public class CsvFileWriter {
 
     //CSV file header
 
-    private static final String FILE_HEADER = "URL,Title,Name,Email,Telephone";
+    private static final String FILE_HEADER = "URL,Title,Name,City,Age,Email,Telephone";
 
 
     public static void writeCsvFile(String fileName, ArrayList<String> data, String nameFlow) {
 
         FileWriter fileWriter = null;
 
+
+
+
         try {
-            fileWriter = new FileWriter(System.getProperty("user.dir") + "\\" + fileName, StandardCharsets.UTF_8);
+//            fileWriter = new FileWriter(Util.reportFolder + fileName, StandardCharsets.UTF_8);
+            fileWriter = new FileWriter(System.getProperty("user.dir") + "\\Report\\" + Util.reportFolderName + "\\" + fileName, StandardCharsets.UTF_8, true);
 
             if(nameFlow.contains("workUA")) {
                 //Write the CSV file header

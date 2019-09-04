@@ -21,10 +21,14 @@ public class BrowseSummary {
     private SelenideElement telephoneFiled = $(By.xpath("//div[@class='card card-indent wordwrap']/dl/dd/span/.."));
     private SelenideElement telephoneConfirmationFiled = $(By.xpath("//div[@class='card card-indent wordwrap']/dl/dd/span"));
     private SelenideElement titleField = $(By.xpath("//div[@class='card card-indent wordwrap']/div//h2"));
+    private SelenideElement city = $(By.xpath("//*[@class='row']//dl[@class='dl-horizontal']/dd[2]"));
+    private SelenideElement cityIfInfoClosed = $(By.xpath("//*[@class='dl-horizontal']/dd"));
+    private SelenideElement inputCity = $(By.xpath("//input[@class='js-main-region form-control']"));
+    private SelenideElement ageField = $(By.xpath("//*[@class='row']//dl[@class='dl-horizontal']/dd[1]"));
 
-    public void findSummary(String request) {
-        getSearchField().val(request).pressEnter();
-
+    public void findSummary(String request, String city) {
+        getSearchField().val(request);
+        getInputCity().val(city).pressEnter().pressEnter();
     }
 
     public void grabCards() throws InterruptedException {
@@ -67,10 +71,30 @@ public class BrowseSummary {
             return getTelephoneFiled().getText();
         }
         return "-";
+
+
+    }    public String getCity(){
+        if(getFullName().equals("Личные данные скрыты")){
+            if(getCityIfInfoClosed().exists()) {
+                return getCityIfInfoClosed().getText();
+            }
+        }else {
+            if(getCityField().exists()) {
+                return getCityField().getText();
+            }
+        }
+        return "-";
     }
 
 
-
+        public String getAge() {
+            if(!getFullName().equals("Личные данные скрыты")) {
+                if (getAgeField().exists()) {
+                    return getAgeField().getText();
+                }
+            }
+            return "-";
+        }
 
 
 
@@ -111,5 +135,21 @@ public class BrowseSummary {
 
     public SelenideElement getTelephoneConfirmationFiled() {
         return telephoneConfirmationFiled;
+    }
+
+    public SelenideElement getCityField() {
+        return city;
+    }
+
+    public SelenideElement getInputCity() {
+        return inputCity;
+    }
+
+    public SelenideElement getCityIfInfoClosed() {
+        return cityIfInfoClosed;
+    }
+
+    public SelenideElement getAgeField() {
+        return ageField;
     }
 }

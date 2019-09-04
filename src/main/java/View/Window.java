@@ -26,16 +26,18 @@ public class Window {
     public static JPasswordField passwordText;
     public static JTextField keyWordsText;
     public static JTextField quantityText;
+    public static JTextField cityText;
     public static JProgressBar j ;
     public static JButton loginButton = new JButton("Login");
-    public static JLabel help;
     public static JButton installUpdate = new JButton("Install update?");
     public static JButton updateButton = new JButton("No update now");
     public static JButton exitButton = new JButton("Exit");
+    public static JLabel help;
     public static JLabel userLabel = new JLabel("Email");
     public static JLabel passwordLabel = new JLabel("Password");
     public static JLabel keyWords = new JLabel("Keywords");
     public static JLabel quantity = new JLabel("Quantity");
+    public static JLabel city = new JLabel("City");
     public static JLabel errorLabel = new JLabel();
     public static boolean checkStart;
 
@@ -46,7 +48,7 @@ public class Window {
 
     public static void main(String[] args) throws IOException {
         frame = new JFrame("WorkUA parser v" + numberVersion);
-        frame.setPreferredSize(new Dimension(400,280));
+        frame.setPreferredSize(new Dimension(400,320));
 
         // handle window close
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") +"\\src\\main\\resources\\apple-touch-icon.png");
@@ -136,30 +138,6 @@ public class Window {
         passwordText = new JPasswordField(20);
         passwordText.setBounds(180, 80, 180, 25);
         panel.add(passwordText);
-        passwordText.addKeyListener(new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    frame.dispose();
-                    try {
-                        BaseTest baseTest = new BaseTest();
-                        baseTest.parser();
-                    } catch (InterruptedException | IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                //Do Nothing
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                //Do Nothing
-            }
-        });
 
         keyWords.setBounds(10, 110, 80, 25);
         keyWords.setForeground(Color.WHITE);
@@ -168,32 +146,6 @@ public class Window {
         keyWordsText = new JTextField(20);
         keyWordsText.setBounds(180, 110, 180, 25);
         panel.add(keyWordsText);
-        keyWordsText.addKeyListener(new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    frame.dispose();
-                    try {
-                        BaseTest baseTest = new BaseTest();
-                        baseTest.parser();
-                    } catch (InterruptedException | IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                //Do Nothing
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                //Do Nothing
-            }
-        });
-
-
 
         quantity.setBounds(10, 140, 80, 25);
         quantity.setForeground(Color.WHITE);
@@ -228,8 +180,40 @@ public class Window {
 
         panel.add(quantityText);
 
+        city.setBounds(10, 170, 80, 25);
+        city.setForeground(Color.WHITE);
+        panel.add(city);
 
-        loginButton.setBounds(10, 180, 80, 25);
+        cityText = new JTextField(20);
+        cityText.setBounds(180, 170, 180, 25);
+        cityText.addKeyListener(new KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if(e.getKeyChar()==KeyEvent.VK_ENTER){
+                    frame.dispose();
+                    try {
+                        BaseTest baseTest = new BaseTest();
+                        baseTest.parser();
+                    } catch (InterruptedException | IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                //Do Nothing
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                //Do Nothing
+            }
+        });
+        panel.add(cityText);
+
+
+        loginButton.setBounds(10, 210, 80, 25);
         loginButton.setBorder(new LineBorder(new Color(255,158,0)));
 
         loginButton.setFocusPainted(false);
@@ -239,7 +223,7 @@ public class Window {
         panel.add(loginButton);
         loginButton.addActionListener(new Window.LoginPressed());
 
-        updateButton.setBounds(125, 180, 120, 25);
+        updateButton.setBounds(125, 210, 120, 25);
         updateButton.setBorder(new LineBorder(new Color(255,158,0)));
         updateButton.setFocusPainted(false);
         updateButton.setForeground(Color.WHITE);
@@ -249,7 +233,7 @@ public class Window {
         panel.add(updateButton);
         updateButton.addActionListener(new Window.UpdateChecker());
 
-        installUpdate.setBounds(125, 180, 120, 25);
+        installUpdate.setBounds(125, 210, 120, 25);
         installUpdate.setBorder(new LineBorder(new Color(255,158,0)));
         installUpdate.setFocusPainted(false);
         installUpdate.setForeground(Color.WHITE);
@@ -267,7 +251,7 @@ public class Window {
 
 
 
-        exitButton.setBounds(280, 180, 80, 25);
+        exitButton.setBounds(280, 210, 80, 25);
         exitButton.setBorder(new LineBorder(new Color(255,158,0)));
         exitButton.setFocusPainted(false);
         exitButton.setForeground(Color.WHITE);
@@ -278,7 +262,7 @@ public class Window {
 
         j = new JProgressBar(0, DownloadWithBar.getSize());
         j.setBorder(new LineBorder(new Color(255,158,0)));
-        j.setBounds(10, 210, 360, 25);
+        j.setBounds(10, 240, 360, 25);
         j.setMinimum(0);
         j.setMaximum(100);
         j.setStringPainted(true);

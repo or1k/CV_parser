@@ -17,6 +17,8 @@ public class Login {
     //hr@allkaygroup.com.ua
     //ALK12345678
 
+    //tari@smart-mail.top
+    //1q2w3e4r
     public BrowseSummary loginInAccount() {
         getEmail().val(Window.userText.getText());
         getPassword().val(String.valueOf(Window.passwordText.getPassword()));

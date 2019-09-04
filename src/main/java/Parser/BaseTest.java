@@ -40,13 +40,22 @@ public  class BaseTest {
          *
          */
 
+        /**
+         * Settings
+         */
         Settings.saveLogin();
-        Login login = open("https://www.work.ua/employer/login/", Login.class);
-        login.loginInAccount();
-        BrowseSummary browseSummary = open("https://www.work.ua/resumes/", BrowseSummary.class);
-        browseSummary.findSummary(Window.keyWordsText.getText());
+        Util.createReportFolderIfNotExist();
+        Util.createActualReportFolder(Window.keyWordsText.getText());
+        /**
+         *
+         */
 
-        long startRegistrationTime = System.currentTimeMillis();
+
+        Login login = open("https://www.work.ua/ru/employer/login/", Login.class);
+        login.loginInAccount();
+        BrowseSummary browseSummary = open("https://www.work.ua/ru/resumes/", BrowseSummary.class);
+        browseSummary.findSummary(Window.keyWordsText.getText(), Window.cityText.getText());
+
         for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
             browseSummary.grabCards();
             //write in report
@@ -56,14 +65,23 @@ public  class BaseTest {
             System.out.println(reportData.get("Title"));
             reportData.put("Name", browseSummary.getFullName());
             System.out.println(reportData.get("Name"));
+            reportData.put("City", browseSummary.getCity());
+            System.out.println(reportData.get("City"));
+            reportData.put("Age", browseSummary.getAge());
+            System.out.println(reportData.get("Age"));
             reportData.put("Email", browseSummary.getEmail());
             System.out.println(reportData.get("Email"));
             reportData.put("Telephone", browseSummary.getTelephone());
             System.out.println(reportData.get("Telephone"));
-
             browseSummary.backPage();
             list.add(Util.lineToCSV(reportData));
             reportData.clear();
+
+            if(i%10 == 0 & i != 0){
+                CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
+                list.clear();
+            }
+
         }
 
         CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
