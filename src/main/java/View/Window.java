@@ -41,7 +41,7 @@ public class Window {
     public static JLabel errorLabel = new JLabel();
     public static boolean checkStart;
 
-    public static int numberVersion = 1;
+    public static int numberVersion = 2;
 
     public static JFrame frame;
 
