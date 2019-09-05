@@ -89,6 +89,8 @@ public class Window {
 
         frame.setVisible(true);
 
+
+
         //Check Update, if have - updateButton Enable. Else - Disable
         if(checkUpdateStatus()){
             updateButton.setEnabled(true);
@@ -101,11 +103,14 @@ public class Window {
 
 
 
+
+
     }
 
     private static void mainView(JPanel panel) {
 //        Enter in JIRA account
         panel.setLayout(null);
+        JOptionPane.showMessageDialog(loginButton,  System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe");
 
 
 
@@ -134,6 +139,26 @@ public class Window {
         siteMenu = new JComboBox(siteList);
         siteMenu.setBounds(180, 50, 180, 25);
         panel.add(siteMenu);
+        siteMenu.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(siteMenu.getSelectedIndex() == 1){
+                    userText.setEditable(false);
+                    userText.setText("");
+                    userText.setForeground(Color.DARK_GRAY);
+                    passwordText.setEditable(false);
+                    passwordText.setForeground(Color.DARK_GRAY);
+                }else{
+                    userText.setEditable(true);
+                    userText.setForeground(Color.WHITE);
+                    passwordText.setEditable(true);
+                    passwordText.setForeground(Color.WHITE);
+                }
+            }
+        });
+
+
+
 
         userLabel.setBounds(10, 80, 80, 25);
         userLabel.setForeground(Color.WHITE);
@@ -276,6 +301,13 @@ public class Window {
     public static boolean checkUpdateStatus() {
         if(Settings.checkUpdate()){
             return true;
+        }
+        return false;
+    }
+
+    public static boolean checkSiteIsPicked(){
+        if(siteMenu.getSelectedIndex() == 1){
+           return true;
         }
         return false;
     }
