@@ -1,5 +1,6 @@
 package Utils;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,15 +19,15 @@ public class CsvFileWriter {
     public static void writeCsvFile(String fileName, ArrayList<String> data, String nameFlow) {
 
         FileWriter fileWriter = null;
-
-
+        File report = new File(System.getProperty("user.dir") + "\\Report\\" + Util.reportFolderName + "\\" + fileName);
 
 
         try {
+
 //            fileWriter = new FileWriter(Util.reportFolder + fileName, StandardCharsets.UTF_8);
             fileWriter = new FileWriter(System.getProperty("user.dir") + "\\Report\\" + Util.reportFolderName + "\\" + fileName, StandardCharsets.UTF_8, true);
 
-            if(nameFlow.contains("workUA")) {
+            if (nameFlow.contains("workUA")) {
                 //Write the CSV file header
                 fileWriter.append(FILE_HEADER);
             }

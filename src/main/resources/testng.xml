@@ -2,7 +2,7 @@
 <suite verbose="10" name="WorkUA_parcer" configfailurepolicy="continue">
     <test name="WorkUA_parcer">
         <classes>
-            <class name="Parser.BaseTest"/>
+            <class name="Parser.WorkUA"/>
         </classes>
     </test>
 </suite>

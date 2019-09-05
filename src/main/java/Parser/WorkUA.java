@@ -13,6 +13,7 @@ import com.codeborne.selenide.testng.BrowserPerClass;
 import com.codeborne.selenide.testng.TextReport;
 import org.testng.annotations.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 
 @Listeners({TextReport.class, BrowserPerClass.class})
-public  class BaseTest {
+public  class WorkUA {
 
     Map reportData = new HashMap();
     ArrayList<String> list = new ArrayList<>();
@@ -58,24 +59,29 @@ public  class BaseTest {
 
         for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
             browseSummary.grabCards();
-            //write in report
-            reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
-            System.out.println(reportData.get("URL"));
-            reportData.put("Title", browseSummary.getTitle());
-            System.out.println(reportData.get("Title"));
-            reportData.put("Name", browseSummary.getFullName());
-            System.out.println(reportData.get("Name"));
-            reportData.put("City", browseSummary.getCity());
-            System.out.println(reportData.get("City"));
-            reportData.put("Age", browseSummary.getAge());
-            System.out.println(reportData.get("Age"));
-            reportData.put("Email", browseSummary.getEmail());
-            System.out.println(reportData.get("Email"));
-            reportData.put("Telephone", browseSummary.getTelephone());
-            System.out.println(reportData.get("Telephone"));
-            browseSummary.backPage();
-            list.add(Util.lineToCSV(reportData));
-            reportData.clear();
+            if(browseSummary.isCardsFlag()) {
+                //write in report
+                reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
+                System.out.println(reportData.get("URL"));
+                reportData.put("Title", browseSummary.getTitle());
+                System.out.println(reportData.get("Title"));
+                reportData.put("Name", browseSummary.getFullName());
+                System.out.println(reportData.get("Name"));
+                reportData.put("City", browseSummary.getCity());
+                System.out.println(reportData.get("City"));
+                reportData.put("Age", browseSummary.getAge());
+                System.out.println(reportData.get("Age"));
+                reportData.put("Email", browseSummary.getEmail());
+                System.out.println(reportData.get("Email"));
+                reportData.put("Telephone", browseSummary.getTelephone());
+                System.out.println(reportData.get("Telephone"));
+                browseSummary.backPage();
+                list.add(Util.lineToCSV(reportData));
+                reportData.clear();
+            }
+            else {
+                break;
+            }
 
             if(i%10 == 0 & i != 0){
                 CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
@@ -86,7 +92,7 @@ public  class BaseTest {
 
         CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
         Util.openReport();
-
+        JOptionPane.showMessageDialog(null,  "Process DONE!");
 
     }
 

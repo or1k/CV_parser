@@ -4,7 +4,8 @@ package View;
 
 
 import DownloadUtils.DownloadWithBar;
-import Parser.BaseTest;
+import Parser.BossAz;
+import Parser.WorkUA;
 
 import Utils.Settings;
 
@@ -32,6 +33,7 @@ public class Window {
     public static JButton installUpdate = new JButton("Install update?");
     public static JButton updateButton = new JButton("No update now");
     public static JButton exitButton = new JButton("Exit");
+    public static JComboBox siteMenu;
     public static JLabel help;
     public static JLabel userLabel = new JLabel("Email");
     public static JLabel passwordLabel = new JLabel("Password");
@@ -39,16 +41,24 @@ public class Window {
     public static JLabel quantity = new JLabel("Quantity");
     public static JLabel city = new JLabel("City");
     public static JLabel errorLabel = new JLabel();
+    public static JLabel hintQ = new JLabel("max: 500");
+    public static JLabel chooseSite = new JLabel("Choose site");
     public static boolean checkStart;
 
-    public static int numberVersion = 2;
+    //Array of Site
+    public static String[] siteList = {"https://www.work.ua/",
+            "https://ru.boss.az/",
+    };
+
+
+    public static int numberVersion = 3;
 
     public static JFrame frame;
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         frame = new JFrame("WorkUA parser v" + numberVersion);
-        frame.setPreferredSize(new Dimension(400,320));
+        frame.setPreferredSize(new Dimension(400,380));
 
         // handle window close
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") +"\\src\\main\\resources\\apple-touch-icon.png");
@@ -59,6 +69,7 @@ public class Window {
                 System.exit(0);
             }
         });
+
 
 
         // set up panels with buttons
@@ -116,13 +127,20 @@ public class Window {
             }
         });
 
+        chooseSite.setBounds(10, 50, 80, 25);
+        chooseSite.setForeground(Color.WHITE);
+        panel.add(chooseSite);
 
-        userLabel.setBounds(10, 50, 80, 25);
+        siteMenu = new JComboBox(siteList);
+        siteMenu.setBounds(180, 50, 180, 25);
+        panel.add(siteMenu);
+
+        userLabel.setBounds(10, 80, 80, 25);
         userLabel.setForeground(Color.WHITE);
         panel.add(userLabel);
 
         userText = new JTextField(20);
-        userText.setBounds(180, 50, 180, 25);
+        userText.setBounds(180, 80, 180, 25);
         panel.add(userText);
         try {
             userText.setText(Settings.profile());
@@ -131,32 +149,37 @@ public class Window {
         }
 
 
-        passwordLabel.setBounds(10, 80, 80, 25);
+        passwordLabel.setBounds(10, 110, 80, 25);
         passwordLabel.setForeground(Color.WHITE);
         panel.add(passwordLabel);
 
         passwordText = new JPasswordField(20);
-        passwordText.setBounds(180, 80, 180, 25);
+        passwordText.setBounds(180, 110, 180, 25);
         panel.add(passwordText);
 
-        keyWords.setBounds(10, 110, 80, 25);
+        keyWords.setBounds(10, 140, 180, 25);
         keyWords.setForeground(Color.WHITE);
         panel.add(keyWords);
 
         keyWordsText = new JTextField(20);
-        keyWordsText.setBounds(180, 110, 180, 25);
+        keyWordsText.setBounds(180, 140, 180, 25);
         panel.add(keyWordsText);
 
-        quantity.setBounds(10, 140, 80, 25);
+        quantity.setBounds(10, 170, 80, 25);
         quantity.setForeground(Color.WHITE);
         panel.add(quantity);
 
-        errorLabel.setBounds(110, 140, 80, 25);
+        hintQ.setBounds(120, 170, 80, 25);
+        hintQ.setForeground(Color.WHITE);
+        panel.add(hintQ);
+
+        errorLabel.setBounds(250, 170, 80, 25);
         errorLabel.setForeground(Color.RED);
         panel.add(errorLabel);
 
         quantityText= new JTextField(20);
-        quantityText.setBounds(180, 140, 180, 25);
+
+        quantityText.setBounds(180, 170, 180, 25);
         quantityText.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -172,6 +195,8 @@ public class Window {
                         errorLabel.setText("");
                         checkStart = true;
                     }
+
+
                 }catch (NumberFormatException e1){
                     errorLabel.setText("only digits");
                 }
@@ -180,40 +205,24 @@ public class Window {
 
         panel.add(quantityText);
 
-        city.setBounds(10, 170, 80, 25);
+        city.setBounds(10, 200, 80, 25);
         city.setForeground(Color.WHITE);
         panel.add(city);
 
         cityText = new JTextField(20);
-        cityText.setBounds(180, 170, 180, 25);
-        cityText.addKeyListener(new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if(e.getKeyChar()==KeyEvent.VK_ENTER){
-                    frame.dispose();
-                    try {
-                        BaseTest baseTest = new BaseTest();
-                        baseTest.parser();
-                    } catch (InterruptedException | IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                //Do Nothing
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                //Do Nothing
-            }
-        });
+        cityText.setBounds(180, 200, 180, 25);
         panel.add(cityText);
 
+        j = new JProgressBar(0, DownloadWithBar.getSize());
+        j.setBorder(new LineBorder(new Color(255,158,0)));
+        j.setBounds(10, 240, 360, 25);
+        j.setMinimum(0);
+        j.setMaximum(100);
+        j.setStringPainted(true);
+        panel.add(j);
 
-        loginButton.setBounds(10, 210, 80, 25);
+
+        loginButton.setBounds(10, 280, 80, 25);
         loginButton.setBorder(new LineBorder(new Color(255,158,0)));
 
         loginButton.setFocusPainted(false);
@@ -223,7 +232,7 @@ public class Window {
         panel.add(loginButton);
         loginButton.addActionListener(new Window.LoginPressed());
 
-        updateButton.setBounds(125, 210, 120, 25);
+        updateButton.setBounds(125, 280, 120, 25);
         updateButton.setBorder(new LineBorder(new Color(255,158,0)));
         updateButton.setFocusPainted(false);
         updateButton.setForeground(Color.WHITE);
@@ -233,7 +242,7 @@ public class Window {
         panel.add(updateButton);
         updateButton.addActionListener(new Window.UpdateChecker());
 
-        installUpdate.setBounds(125, 210, 120, 25);
+        installUpdate.setBounds(125, 280, 120, 25);
         installUpdate.setBorder(new LineBorder(new Color(255,158,0)));
         installUpdate.setFocusPainted(false);
         installUpdate.setForeground(Color.WHITE);
@@ -243,15 +252,16 @@ public class Window {
         panel.add(installUpdate);
         installUpdate.addActionListener(e -> {
             try {
-                Desktop.getDesktop().open(new File(System.getProperty("user.dir") + "\\WeeklyReport_v" + (numberVersion+1) + ".exe"));
+                Desktop.getDesktop().open(new File(System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe"));
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(loginButton,  "Can't find install file: " + System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe");
                 ex.printStackTrace();
             }
         });
 
 
 
-        exitButton.setBounds(280, 210, 80, 25);
+        exitButton.setBounds(280, 280, 80, 25);
         exitButton.setBorder(new LineBorder(new Color(255,158,0)));
         exitButton.setFocusPainted(false);
         exitButton.setForeground(Color.WHITE);
@@ -260,13 +270,7 @@ public class Window {
         panel.add(exitButton);
         exitButton.addActionListener(new Window.ExitActionListener());
 
-        j = new JProgressBar(0, DownloadWithBar.getSize());
-        j.setBorder(new LineBorder(new Color(255,158,0)));
-        j.setBounds(10, 240, 360, 25);
-        j.setMinimum(0);
-        j.setMaximum(100);
-        j.setStringPainted(true);
-        panel.add(j);
+
     }
 
     public static boolean checkUpdateStatus() {
@@ -300,14 +304,15 @@ public class Window {
 
     public static class LoginPressed implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            System.out.println(siteMenu.getSelectedIndex());
+
+
             if(userText.getText().equals("")){
                 userLabel.setForeground(Color.RED);
                 return;
             }else {
                 userLabel.setForeground(Color.WHITE);
             }
-
-
             if(passwordText.getPassword().length < 2){
                 passwordLabel.setForeground(Color.RED);
                 return;
@@ -315,21 +320,51 @@ public class Window {
             else {
                 passwordLabel.setForeground(Color.WHITE);
             }
-
-            if(!checkStart){
+            if(keyWordsText.getText().equals("")){
+                keyWords.setForeground(Color.RED);
+                System.out.println("lolo");
                 return;
+            }else {
+                keyWords.setForeground(Color.WHITE);
             }
-            loginButton = (JButton) e.getSource();
-            JOptionPane.showMessageDialog(loginButton,  "СТАРТУЕМ!!!!!");
-            frame.dispose();
-            try {
-//                ParserBot parserBot = new ParserBot();
-//                parserBot.test();
-                BaseTest baseTest = new BaseTest();
-                baseTest.parser();
-            } catch (IOException | InterruptedException ex) {
-                ex.printStackTrace();
+
+            if(quantityText.getText().equals("") && !checkStart){
+                quantity.setForeground(Color.RED);
+                return;
+            }else {
+                quantity.setForeground(Color.WHITE);
             }
+            if(cityText.getText().equals("")){
+                city.setForeground(Color.RED);
+                return;
+            }else {
+                city.setForeground(Color.WHITE);
+            }
+
+            switch (siteMenu.getSelectedIndex()){
+                case (0):
+                    loginButton = (JButton) e.getSource();
+                    JOptionPane.showMessageDialog(loginButton,  "СТАРТУЕМ!!!!!");
+                    frame.dispose();
+                    try {
+                        WorkUA workUA = new WorkUA();
+                        workUA.parser();
+                    } catch (IOException | InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                case (1):
+                    loginButton = (JButton) e.getSource();
+                    JOptionPane.showMessageDialog(loginButton,  "СТАРТУЕМ!!!!!");
+                    frame.dispose();
+                    try {
+                        BossAz bossAz = new BossAz();
+                        bossAz.parser();
+                    } catch (IOException | InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+            }
+
+
 
 
         }

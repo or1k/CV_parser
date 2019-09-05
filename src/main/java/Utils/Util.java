@@ -1,11 +1,12 @@
 package Utils;
 
 import View.Window;
-import org.testng.annotations.Test;
+import com.codeborne.selenide.WebDriverRunner;
 
 import java.awt.*;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -75,6 +76,17 @@ public class Util {
             System.out.println(reportFolderName);
         }
 
+    }
+
+    public static void closeTab() throws InterruptedException {
+        Thread.sleep(1000);
+        ArrayList<String> tabs2 = new ArrayList<>(WebDriverRunner.getWebDriver().getWindowHandles());
+        if (tabs2.size() != 1) {
+            WebDriverRunner.getWebDriver().switchTo().window(tabs2.get(1));
+            WebDriverRunner.getWebDriver().close();
+            WebDriverRunner.getWebDriver().switchTo().window(tabs2.get(0));
+            Thread.sleep(1000);
+        }
     }
 
 }

@@ -51,6 +51,7 @@
 
                 </configuration>
 
+
             </plugin>
             <!--console command create Jar:
             mvn clean compile assembly:single
