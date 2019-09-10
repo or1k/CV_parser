@@ -354,7 +354,6 @@ public class Window {
             }
             if(keyWordsText.getText().equals("")){
                 keyWords.setForeground(Color.RED);
-                System.out.println("lolo");
                 return;
             }else {
                 keyWords.setForeground(Color.WHITE);
@@ -381,6 +380,7 @@ public class Window {
                     try {
                         WorkUA workUA = new WorkUA();
                         workUA.parser();
+                        break;
                     } catch (IOException | InterruptedException ex) {
                         ex.printStackTrace();
                     }
@@ -391,6 +391,7 @@ public class Window {
                     try {
                         BossAz bossAz = new BossAz();
                         bossAz.parser();
+                        break;
                     } catch (IOException | InterruptedException ex) {
                         ex.printStackTrace();
                     }
