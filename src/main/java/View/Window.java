@@ -33,7 +33,7 @@ public class Window {
     public static JButton installUpdate = new JButton("Install update?");
     public static JButton updateButton = new JButton("No update now");
     public static JButton exitButton = new JButton("Exit");
-    public static JComboBox siteMenu;
+    public static JComboBox<String> siteMenu;
     public static JLabel help;
     public static JLabel userLabel = new JLabel("Email");
     public static JLabel passwordLabel = new JLabel("Password");
@@ -110,7 +110,7 @@ public class Window {
     private static void mainView(JPanel panel) {
 //        Enter in JIRA account
         panel.setLayout(null);
-        JOptionPane.showMessageDialog(loginButton,  System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe");
+//        JOptionPane.showMessageDialog(loginButton,  System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe");
 
 
 
@@ -136,7 +136,7 @@ public class Window {
         chooseSite.setForeground(Color.WHITE);
         panel.add(chooseSite);
 
-        siteMenu = new JComboBox(siteList);
+        siteMenu = new JComboBox<>(siteList);
         siteMenu.setBounds(180, 50, 180, 25);
         panel.add(siteMenu);
         siteMenu.addItemListener(new ItemListener() {

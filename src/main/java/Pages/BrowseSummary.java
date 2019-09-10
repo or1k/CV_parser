@@ -43,7 +43,7 @@ public class BrowseSummary {
     private SelenideElement resultNothingBossAZ = $(By.xpath("//*[@class='results-nothing']"));
 
     public void findSummary(String request, String city) {
-        if(WebDriverRunner.getWebDriver().getCurrentUrl().contains("workua")) {
+        if(WebDriverRunner.getWebDriver().getCurrentUrl().contains("work.ua")) {
             getSearchField().val(request);
             getInputCity().val(city).pressEnter().pressEnter();
         }else if(WebDriverRunner.getWebDriver().getCurrentUrl().contains("boss.az")){
