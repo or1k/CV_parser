@@ -46,6 +46,7 @@ public  class WorkUA {
          */
         Settings.saveLogin();
         Util.createReportFolderIfNotExist();
+        Util.createUtilsIfNotExist();
         Util.createActualReportFolder(Window.keyWordsText.getText());
         /**
          *
@@ -57,35 +58,36 @@ public  class WorkUA {
         BrowseSummary browseSummary = open("https://www.work.ua/ru/resumes/", BrowseSummary.class);
         browseSummary.findSummary(Window.keyWordsText.getText(), Window.cityText.getText());
 
-        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
-            browseSummary.grabCards();
-            if(browseSummary.isCardsFlag()) {
-                //write in report
-                reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
-                System.out.println(reportData.get("URL"));
-                reportData.put("Title", browseSummary.getTitle());
-                System.out.println(reportData.get("Title"));
-                reportData.put("Name", browseSummary.getFullName());
-                System.out.println(reportData.get("Name"));
-                reportData.put("City", browseSummary.getCity());
-                System.out.println(reportData.get("City"));
-                reportData.put("Age", browseSummary.getAge());
-                System.out.println(reportData.get("Age"));
-                reportData.put("Email", browseSummary.getEmail());
-                System.out.println(reportData.get("Email"));
-                reportData.put("Telephone", browseSummary.getTelephone());
-                System.out.println(reportData.get("Telephone"));
-                browseSummary.backPage();
-                list.add(Util.lineToCSV(reportData));
-                reportData.clear();
-            }
-            else {
-                break;
-            }
 
-            if(i%10 == 0 & i != 0){
-                CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
-                list.clear();
+        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
+            if(browseSummary.grabCards()) {
+                if (browseSummary.isCardsFlag()) {
+                    //write in report
+                    reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
+                    System.out.println(reportData.get("URL"));
+                    reportData.put("Title", browseSummary.getTitle());
+                    System.out.println(reportData.get("Title"));
+                    reportData.put("Name", browseSummary.getFullName());
+                    System.out.println(reportData.get("Name"));
+                    reportData.put("City", browseSummary.getCity());
+                    System.out.println(reportData.get("City"));
+                    reportData.put("Age", browseSummary.getAge());
+                    System.out.println(reportData.get("Age"));
+                    reportData.put("Email", browseSummary.getEmail());
+                    System.out.println(reportData.get("Email"));
+                    reportData.put("Telephone", browseSummary.getTelephone());
+                    System.out.println(reportData.get("Telephone"));
+                    browseSummary.backPage();
+                    list.add(Util.lineToCSV(reportData));
+                    reportData.clear();
+                } else {
+                    break;
+                }
+
+                if (i % 10 == 0 & i != 0) {
+                    CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
+                    list.clear();
+                }
             }
 
         }

@@ -4,11 +4,13 @@ import View.Window;
 import com.codeborne.selenide.WebDriverRunner;
 
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Util {
 
@@ -57,8 +59,45 @@ public class Util {
         File f = new File(System.getProperty("user.dir") + "\\Report");
         if (!f.exists() && !f.isDirectory()) {
             f.mkdir();
+        }
+    }
+
+    public static void createUtilsIfNotExist() throws IOException {
+        File f = new File(System.getProperty("user.dir") + "\\Utils");
+        if (!f.exists() && !f.isDirectory()) {
+            f.mkdir();
 
         }
+        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualData.txt");
+        if(!actualData.exists()){
+            actualData.createNewFile();
+        }
+    }
+
+    public static void writeInFile(String data) throws IOException {
+        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualData.txt");
+        FileWriter writer = new FileWriter(actualData,true);
+        writer.write(data);
+        writer.write("\n");
+        writer.flush();
+        writer.close();
+    }
+
+
+
+    public static boolean readFromFile(String data) throws IOException {
+        List<String> list = new ArrayList<String>();
+        Scanner in = new Scanner(new File(System.getProperty("user.dir") + "/Utils/ActualData.txt"));
+        while (in.hasNextLine())
+            list.add(in.nextLine());
+
+
+        for (String s : list) {
+            if (s.contains(data)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -88,5 +127,8 @@ public class Util {
             Thread.sleep(1000);
         }
     }
+
+
+
 
 }

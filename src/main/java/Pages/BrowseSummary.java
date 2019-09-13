@@ -1,7 +1,9 @@
 package Pages;
 
 import Utils.CitiesBossAz;
+import Utils.Util;
 import View.Window;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
@@ -9,12 +11,16 @@ import org.openqa.selenium.JavascriptException;
 
 import javax.swing.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import static com.codeborne.selenide.Selenide.*;
 import static java.lang.Thread.sleep;
 
 
 public class BrowseSummary {
     private int counterOnPage = 0;
+    private ArrayList idCards = new ArrayList();
 
     private SelenideElement dropDownSearchFilter = $(By.xpath("//a[@class=' search-toggle']"));
     private SelenideElement searchField = $(By.xpath("//input[@id='search']"));
@@ -29,6 +35,7 @@ public class BrowseSummary {
     private SelenideElement cityIfInfoClosed = $(By.xpath("//*[@class='dl-horizontal']/dd"));
     private SelenideElement inputCity = $(By.xpath("//input[@class='js-main-region form-control']"));
     private SelenideElement ageField = $(By.xpath("//*[@class='row']//dl[@class='dl-horizontal']/dd[1]"));
+    private ElementsCollection ids = $$(By.xpath("//div[@id='pjax-resume-list']/a"));
     private boolean cardsFlag;
 
 
@@ -61,23 +68,41 @@ public class BrowseSummary {
 
 
 
-    public boolean grabCards() throws InterruptedException {
+
+    public boolean grabCards() throws InterruptedException, IOException {
         if(counterOnPage > 13) {
+            System.out.println(counterOnPage);
             //ul[@class='pagination hidden-xs']/li[7]/a
             executeJavaScript("document.querySelector('.pagination li:last-of-type a').click();");
             counterOnPage =0;
-        }
-        try {
-        sleep(1000);
-        executeJavaScript("document.getElementsByClassName('card-hover')[" + counterOnPage + "].click();");
-            counterOnPage++;
-            cardsFlag = true;
-        }catch (JavascriptException ex){
-            JOptionPane.showMessageDialog(null, "Нет резюме по вашему запросу.");
-            WebDriverRunner.getWebDriver().quit();
-            cardsFlag = false;
+//            ids.clear();
+            System.out.println("KONEC");
         }
 
+        if(counterOnPage == 0){
+            getIds();
+            System.out.println("NA4ALO");
+        }
+
+        if(!Util.readFromFile(getIds().get(counterOnPage).getAttribute("name"))) {
+            try {
+                Util.writeInFile(getIds().get(counterOnPage).getAttribute("name"));
+                sleep(1000);
+                executeJavaScript("document.getElementsByClassName('card-hover')[" + counterOnPage + "].click();");
+                counterOnPage++;
+                cardsFlag = true;
+                return true;
+            } catch (JavascriptException ex) {
+                JOptionPane.showMessageDialog(null, "Нет резюме по вашему запросу.");
+                WebDriverRunner.getWebDriver().quit();
+                cardsFlag = false;
+
+            }
+        }else {
+            counterOnPage++;
+            System.out.println("Duplicate");
+            System.out.println("============================");
+        }
         return false;
     }
 
@@ -186,6 +211,9 @@ public class BrowseSummary {
 
 
 
+
+
+
     private SelenideElement getSearchField() {
         return searchField;
     }
@@ -281,7 +309,7 @@ public class BrowseSummary {
         return ageFieldBossAz;
     }
 
-    public SelenideElement getNextList() {
-        return nextList;
+    public ElementsCollection getIds() {
+        return ids;
     }
 }
