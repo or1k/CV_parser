@@ -48,7 +48,6 @@ public  class BossAz {
         /**
          * Settings
          */
-        Settings.saveLogin();
         Util.createReportFolderIfNotExist();
         Util.createUtilsIfNotExistBA();
         Util.createActualReportFolder(Window.keyWordsText.getText());
