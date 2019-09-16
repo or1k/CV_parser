@@ -57,7 +57,7 @@ public class Window {
 
 
     public static void main(String[] args) {
-        frame = new JFrame("WorkUA parser v" + numberVersion);
+        frame = new JFrame("CV parser v" + numberVersion);
         frame.setPreferredSize(new Dimension(400,380));
 
         // handle window close
@@ -114,7 +114,7 @@ public class Window {
 
 
 
-        JLabel h1 = new JLabel("<html> <font color='#ffffff'>Enter in</font> <font color='#ffa800'>WorkUA employer account</font></html>");
+        JLabel h1 = new JLabel("<html> <font color='#ffffff'>Enter in</font> <font color='#ffa800'>employer account</font></html>");
         h1.setBounds(150,10,150,30);
         panel.add(h1);
 
@@ -278,9 +278,9 @@ public class Window {
         installUpdate.addActionListener(e -> {
             try {
                 frame.dispose();
-                Desktop.getDesktop().open(new File(System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe"));
+                Desktop.getDesktop().open(new File(System.getProperty("user.dir") + "\\CV_parser_installer.exe"));
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(loginButton,  "Can't find install file: " + System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe");
+                JOptionPane.showMessageDialog(loginButton,  "Can't find install file: " + System.getProperty("user.dir") + "\\CV_parser_installer.exe");
                 ex.printStackTrace();
             }
         });
@@ -415,7 +415,7 @@ public class Window {
         public void actionPerformed(ActionEvent e) {
             if (updateButton.getModel().isArmed()) {
                 try {
-                    DownloadWithBar downloadWithBar = new DownloadWithBar(new URL("https://github.com/or1k/WorkUA_parser/releases/download/" + (numberVersion+1) + "/WorkUA_parser_installer.exe"));
+                    DownloadWithBar downloadWithBar = new DownloadWithBar(new URL("https://github.com/or1k/CV_parser/releases/download/" + (numberVersion+1) + "/CV_parser_installer.exe"));
 //                        updateButton.setText("Downloading");
                     if (DownloadWithBar.getStatus() == 0) {
                         updateButton.setText("Downloading");

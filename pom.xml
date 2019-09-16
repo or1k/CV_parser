@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>or1oN</groupId>
-    <artifactId>WorkUA_parser</artifactId>
+    <artifactId>CV_parser</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
