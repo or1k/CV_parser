@@ -58,8 +58,8 @@ public  class WorkUA {
         BrowseSummary browseSummary = open("https://www.work.ua/ru/resumes/", BrowseSummary.class);
         browseSummary.findSummary(Window.keyWordsText.getText(), Window.cityText.getText());
 
-
-        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
+        CsvFileWriter.writeHEADER(Util.fileName());
+        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; ) {
             if(browseSummary.grabCards()) {
                 if (browseSummary.isCardsFlag()) {
                     //write in report
@@ -80,19 +80,20 @@ public  class WorkUA {
                     browseSummary.backPage();
                     list.add(Util.lineToCSV(reportData));
                     reportData.clear();
+                    i++;
                 } else {
                     break;
                 }
 
                 if (i % 10 == 0 & i != 0) {
-                    CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
+                    CsvFileWriter.writeCsvFile(Util.fileName(), list);
                     list.clear();
                 }
             }
 
         }
 
-        CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
+        CsvFileWriter.writeCsvFile(Util.fileName(), list);
         Util.openReport();
         JOptionPane.showMessageDialog(null,  "Process DONE!");
 

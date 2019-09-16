@@ -93,7 +93,7 @@ public class BrowseSummary {
                 cardsFlag = true;
                 return true;
             } catch (JavascriptException ex) {
-                JOptionPane.showMessageDialog(null, "Нет резюме по вашему запросу.");
+                JOptionPane.showMessageDialog(null, "Резюме закончились.");
                 WebDriverRunner.getWebDriver().quit();
                 cardsFlag = false;
 

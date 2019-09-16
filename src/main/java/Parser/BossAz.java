@@ -58,6 +58,8 @@ public  class BossAz {
         BrowseSummary browseSummary = open("https://ru.boss.az/categories/resumes", BrowseSummary.class);
         browseSummary.findSummary(Window.keyWordsText.getText(), Window.cityText.getText());
         BossAzCV bossAzCV = new BossAzCV();
+
+        CsvFileWriter.writeHEADER(Util.fileName());
         for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
 
 
@@ -86,7 +88,7 @@ public  class BossAz {
                 reportData.clear();
 
                 if (i % 10 == 0 & i != 0) {
-                    CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
+                    CsvFileWriter.writeCsvFile(Util.fileName(), list);
                     list.clear();
                 }
             }else{
@@ -95,7 +97,7 @@ public  class BossAz {
 
         }
 
-        CsvFileWriter.writeCsvFile(Util.fileName(), list, "workUA");
+        CsvFileWriter.writeCsvFile(Util.fileName(), list);
         Util.openReport();
         JOptionPane.showMessageDialog(null,  "Process DONE!");
 
@@ -103,7 +105,7 @@ public  class BossAz {
 
     @AfterClass
     public void tearDown(){
-        CsvFileWriter.writeCsvFile("CV.csv", list, "workUA");
+        CsvFileWriter.writeCsvFile("CV.csv", list);
 
     }
 

@@ -51,7 +51,7 @@ public class Window {
     };
 
 
-    public static int numberVersion = 3;
+    public static int numberVersion = 4;
 
     public static JFrame frame;
 

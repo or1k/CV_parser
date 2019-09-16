@@ -15,8 +15,36 @@ public class CsvFileWriter {
 
     private static final String FILE_HEADER = "URL,Title,Name,City,Age,Email,Telephone";
 
+    public static void writeHEADER (String fileName) throws IOException {
+        FileWriter fileWriter = null;
+        fileWriter = new FileWriter(System.getProperty("user.dir") + "\\Report\\" + Util.reportFolderName + "\\" + fileName, StandardCharsets.UTF_8, true);
 
-    public static void writeCsvFile(String fileName, ArrayList<String> data, String nameFlow) {
+        try {
+
+
+            //Write the CSV file header
+            fileWriter.append(FILE_HEADER);
+        } catch (Exception e) {
+            System.out.println("Error in CsvFileWriter !!!");
+            e.printStackTrace();
+        }
+        finally {
+
+            try {
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException e) {
+                System.out.println("Error while flushing/closing fileWriter !!!");
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+
+
+    public static void writeCsvFile(String fileName, ArrayList<String> data) {
 
         FileWriter fileWriter = null;
         File report = new File(System.getProperty("user.dir") + "\\Report\\" + Util.reportFolderName + "\\" + fileName);
@@ -26,11 +54,6 @@ public class CsvFileWriter {
 
 //            fileWriter = new FileWriter(Util.reportFolder + fileName, StandardCharsets.UTF_8);
             fileWriter = new FileWriter(System.getProperty("user.dir") + "\\Report\\" + Util.reportFolderName + "\\" + fileName, StandardCharsets.UTF_8, true);
-
-            if (nameFlow.contains("workUA")) {
-                //Write the CSV file header
-                fileWriter.append(FILE_HEADER);
-            }
 
             //Add a new line separator after the header
             fileWriter.append(NEW_LINE_SEPARATOR);
