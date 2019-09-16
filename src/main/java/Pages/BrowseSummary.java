@@ -94,6 +94,13 @@ public class BrowseSummary {
             System.out.println("NA4ALO");
         }
 
+        if(counterOnPage == getIds().size()){
+            JOptionPane.showMessageDialog(null, "Резюме закончились.");
+            WebDriverRunner.getWebDriver().quit();
+            cardsFlag = false;
+            return true;
+        }
+
         if(!Util.readFromFileWU(getIds().get(counterOnPage).getAttribute("name"))) {
             try {
                 Util.writeInFileWU(getIds().get(counterOnPage).getAttribute("name"));
