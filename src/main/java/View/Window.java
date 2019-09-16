@@ -144,15 +144,15 @@ public class Window {
             public void itemStateChanged(ItemEvent e) {
                 if(siteMenu.getSelectedIndex() == 1){
                     userText.setEditable(false);
-                    userText.setText("");
-                    userText.setForeground(Color.DARK_GRAY);
+                    passwordText.setText("");
+                    userText.setBackground(new Color(105,105,105));
                     passwordText.setEditable(false);
-                    passwordText.setForeground(Color.DARK_GRAY);
+                    passwordText.setBackground(new Color(105,105,105));
                 }else{
                     userText.setEditable(true);
-                    userText.setForeground(Color.WHITE);
+                    userText.setBackground(Color.WHITE);
                     passwordText.setEditable(true);
-                    passwordText.setForeground(Color.WHITE);
+                    passwordText.setBackground(Color.WHITE);
                 }
             }
         });
@@ -277,6 +277,7 @@ public class Window {
         panel.add(installUpdate);
         installUpdate.addActionListener(e -> {
             try {
+                frame.dispose();
                 Desktop.getDesktop().open(new File(System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe"));
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(loginButton,  "Can't find install file: " + System.getProperty("user.dir") + "\\WorkUA_parser_installer.exe");
@@ -338,20 +339,27 @@ public class Window {
         public void actionPerformed(ActionEvent e) {
             System.out.println(siteMenu.getSelectedIndex());
 
-
-            if(userText.getText().equals("")){
-                userLabel.setForeground(Color.RED);
-                return;
+            if(siteMenu.getSelectedIndex() != 1){
+                if(userText.getText().equals("")){
+                    userLabel.setForeground(Color.RED);
+                    return;
+                }else {
+                    userLabel.setForeground(Color.WHITE);
+                }
+                if(passwordText.getPassword().length < 2){
+                    passwordLabel.setForeground(Color.RED);
+                    return;
+                }
+                else {
+                    passwordLabel.setForeground(Color.WHITE);
+                }
             }else {
                 userLabel.setForeground(Color.WHITE);
-            }
-            if(passwordText.getPassword().length < 2){
-                passwordLabel.setForeground(Color.RED);
-                return;
-            }
-            else {
                 passwordLabel.setForeground(Color.WHITE);
             }
+
+
+
             if(keyWordsText.getText().equals("")){
                 keyWords.setForeground(Color.RED);
                 return;

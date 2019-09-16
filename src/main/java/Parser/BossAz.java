@@ -50,6 +50,7 @@ public  class BossAz {
          */
         Settings.saveLogin();
         Util.createReportFolderIfNotExist();
+        Util.createUtilsIfNotExistBA();
         Util.createActualReportFolder(Window.keyWordsText.getText());
         /**
          *
@@ -60,41 +61,39 @@ public  class BossAz {
         BossAzCV bossAzCV = new BossAzCV();
 
         CsvFileWriter.writeHEADER(Util.fileName());
-        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; i++) {
+        for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1;) {
 
-
-//            browseSummary.grabCardsBossAz();
             if(browseSummary.grabCardsBossAz()) {
-
-                switchTo().window(1);
-                System.out.println();
-                //write in report
-                reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
-                System.out.println(reportData.get("URL"));
-                reportData.put("Title", bossAzCV.getTitle());
-                System.out.println(reportData.get("Title"));
-                reportData.put("Name", bossAzCV.getFullName());
-                System.out.println(reportData.get("Name"));
-                reportData.put("City", bossAzCV.getCity());
-                System.out.println(reportData.get("City"));
-                reportData.put("Age", bossAzCV.getAge());
-                System.out.println(reportData.get("Age"));
-                reportData.put("Email", bossAzCV.getEmail());
-                System.out.println(reportData.get("Email"));
-                reportData.put("Telephone", bossAzCV.getTelephone());
-                System.out.println(reportData.get("Telephone"));
-                Util.closeTab();
-                list.add(Util.lineToCSV(reportData));
-                reportData.clear();
-
+                if (browseSummary.isCardsFlag()) {
+                    switchTo().window(1);
+                    System.out.println();
+                    //write in report
+                    reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
+                    System.out.println(reportData.get("URL"));
+                    reportData.put("Title", bossAzCV.getTitle());
+                    System.out.println(reportData.get("Title"));
+                    reportData.put("Name", bossAzCV.getFullName());
+                    System.out.println(reportData.get("Name"));
+                    reportData.put("City", bossAzCV.getCity());
+                    System.out.println(reportData.get("City"));
+                    reportData.put("Age", bossAzCV.getAge());
+                    System.out.println(reportData.get("Age"));
+                    reportData.put("Email", bossAzCV.getEmail());
+                    System.out.println(reportData.get("Email"));
+                    reportData.put("Telephone", bossAzCV.getTelephone());
+                    System.out.println(reportData.get("Telephone"));
+                    Util.closeTab();
+                    list.add(Util.lineToCSV(reportData));
+                    reportData.clear();
+                    i++;
+                }else {
+                    break;
+                }
                 if (i % 10 == 0 & i != 0) {
                     CsvFileWriter.writeCsvFile(Util.fileName(), list);
                     list.clear();
                 }
-            }else{
-                break;
             }
-
         }
 
         CsvFileWriter.writeCsvFile(Util.fileName(), list);

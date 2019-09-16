@@ -62,20 +62,41 @@ public class Util {
         }
     }
 
-    public static void createUtilsIfNotExist() throws IOException {
+    public static void createUtilsIfNotExistWU() throws IOException {
         File f = new File(System.getProperty("user.dir") + "\\Utils");
         if (!f.exists() && !f.isDirectory()) {
             f.mkdir();
 
         }
-        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualData.txt");
+        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualDataWU.txt");
         if(!actualData.exists()){
             actualData.createNewFile();
         }
     }
 
-    public static void writeInFile(String data) throws IOException {
-        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualData.txt");
+    public static void createUtilsIfNotExistBA() throws IOException {
+        File f = new File(System.getProperty("user.dir") + "\\Utils");
+        if (!f.exists() && !f.isDirectory()) {
+            f.mkdir();
+
+        }
+        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualDataBA.txt");
+        if(!actualData.exists()){
+            actualData.createNewFile();
+        }
+    }
+
+    public static void writeInFileWU(String data) throws IOException {
+        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualDataWU.txt");
+        FileWriter writer = new FileWriter(actualData,true);
+        writer.write(data);
+        writer.write("\n");
+        writer.flush();
+        writer.close();
+    }
+
+    public static void writeInFileBA(String data) throws IOException {
+        File actualData = new File(System.getProperty("user.dir") + "/Utils/ActualDataBA.txt");
         FileWriter writer = new FileWriter(actualData,true);
         writer.write(data);
         writer.write("\n");
@@ -85,9 +106,24 @@ public class Util {
 
 
 
-    public static boolean readFromFile(String data) throws IOException {
+    public static boolean readFromFileWU(String data) throws IOException {
         List<String> list = new ArrayList<String>();
-        Scanner in = new Scanner(new File(System.getProperty("user.dir") + "/Utils/ActualData.txt"));
+        Scanner in = new Scanner(new File(System.getProperty("user.dir") + "/Utils/ActualDataWU.txt"));
+        while (in.hasNextLine())
+            list.add(in.nextLine());
+
+
+        for (String s : list) {
+            if (s.contains(data)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean readFromFileBA(String data) throws IOException {
+        List<String> list = new ArrayList<String>();
+        Scanner in = new Scanner(new File(System.getProperty("user.dir") + "/Utils/ActualDataBA.txt"));
         while (in.hasNextLine())
             list.add(in.nextLine());
 

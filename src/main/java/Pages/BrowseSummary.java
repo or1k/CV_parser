@@ -19,6 +19,15 @@ import static java.lang.Thread.sleep;
 
 
 public class BrowseSummary {
+    /**
+     * BA- BossAZ
+     * WU - Work Ua
+     */
+
+
+
+
+
     private int counterOnPage = 0;
     private ArrayList idCards = new ArrayList();
 
@@ -36,6 +45,7 @@ public class BrowseSummary {
     private SelenideElement inputCity = $(By.xpath("//input[@class='js-main-region form-control']"));
     private SelenideElement ageField = $(By.xpath("//*[@class='row']//dl[@class='dl-horizontal']/dd[1]"));
     private ElementsCollection ids = $$(By.xpath("//div[@id='pjax-resume-list']/a"));
+    private ElementsCollection idsBA = $$(By.xpath("//a[@class='results-i-link']"));
     private boolean cardsFlag;
 
 
@@ -84,9 +94,9 @@ public class BrowseSummary {
             System.out.println("NA4ALO");
         }
 
-        if(!Util.readFromFile(getIds().get(counterOnPage).getAttribute("name"))) {
+        if(!Util.readFromFileWU(getIds().get(counterOnPage).getAttribute("name"))) {
             try {
-                Util.writeInFile(getIds().get(counterOnPage).getAttribute("name"));
+                Util.writeInFileWU(getIds().get(counterOnPage).getAttribute("name"));
                 sleep(1000);
                 executeJavaScript("document.getElementsByClassName('card-hover')[" + counterOnPage + "].click();");
                 counterOnPage++;
@@ -107,29 +117,50 @@ public class BrowseSummary {
     }
 
 
-    public boolean grabCardsBossAz() throws InterruptedException {
+    public boolean grabCardsBossAz() throws InterruptedException, IOException {
         if (counterOnPage > 19) {
             executeJavaScript("document.querySelector('.next a[rel=next]').click();");
 //            getNextList().click();
             counterOnPage = 0;
         }
-        try {
-            sleep(1000);
-            if (resultNothingBossAZ.isDisplayed()) {
-                JOptionPane.showMessageDialog(null, "Нет резюме по вашему запросу.");
-                WebDriverRunner.getWebDriver().quit();
-                return false;
-            }
-            executeJavaScript("document.querySelectorAll('.results-i')[" + counterOnPage + "].click();");
-//            $(By.xpath("//div[@class='results-i']" + "[" + (counterOnPage + 1) + "]/h3")).click();
-            counterOnPage++;
 
-            return true;
-        } catch (JavascriptException ex) {
+        if(counterOnPage == 0){
+            getIdsBA();
+        }
+
+        if(counterOnPage == getIdsBA().size()){
             JOptionPane.showMessageDialog(null, "Резюме закончились.");
             WebDriverRunner.getWebDriver().quit();
-            return false;
+            cardsFlag = false;
+            return true;
         }
+
+
+        try {
+            if (!Util.readFromFileBA(getIDformCV(idsBA, counterOnPage))) {
+                    Util.writeInFileBA(getIDformCV(idsBA, counterOnPage));
+                    sleep(1000);
+
+                    if (resultNothingBossAZ.isDisplayed()) {
+                        JOptionPane.showMessageDialog(null, "Нет резюме по вашему запросу.");
+                        WebDriverRunner.getWebDriver().quit();
+                        return false;
+                    }
+                    executeJavaScript("document.querySelectorAll('.results-i')[" + counterOnPage + "].click();");
+                    counterOnPage++;
+                    cardsFlag = true;
+                    return true;
+            } else {
+                counterOnPage++;
+                System.out.println("Duplicate");
+                System.out.println("============================");
+            }
+        }catch (JavascriptException | IndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(null, "Резюме закончились.");
+            WebDriverRunner.getWebDriver().quit();
+            cardsFlag = false;
+        }
+        return false;
     }
 
 
@@ -209,7 +240,11 @@ public class BrowseSummary {
             return "-";
         }
 
+public String getIDformCV(ElementsCollection ids, int number){
+    String[] id = ids.get(number).getAttribute("href").split("/");
 
+    return id[4];
+}
 
 
 
@@ -311,5 +346,9 @@ public class BrowseSummary {
 
     public ElementsCollection getIds() {
         return ids;
+    }
+
+    public ElementsCollection getIdsBA() {
+        return idsBA;
     }
 }

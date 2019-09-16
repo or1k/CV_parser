@@ -46,7 +46,7 @@ public  class WorkUA {
          */
         Settings.saveLogin();
         Util.createReportFolderIfNotExist();
-        Util.createUtilsIfNotExist();
+        Util.createUtilsIfNotExistWU();
         Util.createActualReportFolder(Window.keyWordsText.getText());
         /**
          *
