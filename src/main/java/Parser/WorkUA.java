@@ -60,6 +60,11 @@ public  class WorkUA {
 
         CsvFileWriter.writeHEADER(Util.fileName());
         for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1; ) {
+
+            if(i == 500){
+                break;
+            }
+
             if(browseSummary.grabCards()) {
                 if (browseSummary.isCardsFlag()) {
                     //write in report

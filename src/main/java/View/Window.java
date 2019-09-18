@@ -384,7 +384,7 @@ public class Window {
                 case (0):
                     loginButton = (JButton) e.getSource();
                     JOptionPane.showMessageDialog(loginButton,  "СТАРТУЕМ!!!!!");
-                    frame.dispose();
+//                    frame.dispose();
                     try {
                         WorkUA workUA = new WorkUA();
                         workUA.parser();
@@ -395,7 +395,7 @@ public class Window {
                 case (1):
                     loginButton = (JButton) e.getSource();
                     JOptionPane.showMessageDialog(loginButton,  "СТАРТУЕМ!!!!!");
-                    frame.dispose();
+//                    frame.dispose();
                     try {
                         BossAz bossAz = new BossAz();
                         bossAz.parser();

@@ -62,6 +62,10 @@ public  class BossAz {
         CsvFileWriter.writeHEADER(Util.fileName());
         for(int i = 0; i <= Integer.parseInt(Window.quantityText.getText())-1;) {
 
+            if(i == 500){
+                break;
+            }
+
             if(browseSummary.grabCardsBossAz()) {
                 if (browseSummary.isCardsFlag()) {
                     switchTo().window(1);
