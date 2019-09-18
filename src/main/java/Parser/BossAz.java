@@ -3,9 +3,7 @@ package Parser;
 import BrowserConfig.MyChromeBrowserClass;
 import Pages.BossAzCV;
 import Pages.BrowseSummary;
-import Pages.Login;
 import Utils.CsvFileWriter;
-import Utils.Settings;
 import Utils.Util;
 import View.Window;
 import com.codeborne.selenide.Configuration;
@@ -34,6 +32,8 @@ public  class BossAz {
 
     @Test
     public  void parser() throws IOException, InterruptedException {
+
+
         /**
          * Setup
          */
@@ -69,7 +69,6 @@ public  class BossAz {
             if(browseSummary.grabCardsBossAz()) {
                 if (browseSummary.isCardsFlag()) {
                     switchTo().window(1);
-                    System.out.println();
                     //write in report
                     reportData.put("URL", WebDriverRunner.getWebDriver().getCurrentUrl());
                     System.out.println(reportData.get("URL"));

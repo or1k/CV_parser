@@ -14,8 +14,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -45,20 +44,21 @@ public class Window {
     public static JLabel chooseSite = new JLabel("Choose site");
     public static boolean checkStart;
 
+
     //Array of Site
     public static String[] siteList = {"https://www.work.ua/",
             "https://ru.boss.az/",
     };
 
 
-    public static int numberVersion = 4;
+    public static int numberVersion = 5;
 
     public static JFrame frame;
 
 
     public static void main(String[] args) {
         frame = new JFrame("CV parser v" + numberVersion);
-        frame.setPreferredSize(new Dimension(400,380));
+        frame.setPreferredSize(new Dimension(400,360));
 
         // handle window close
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") +"\\src\\main\\resources\\apple-touch-icon.png");
@@ -69,8 +69,6 @@ public class Window {
                 System.exit(0);
             }
         });
-
-
 
         // set up panels with buttons
 
@@ -240,7 +238,7 @@ public class Window {
 
         j = new JProgressBar(0, DownloadWithBar.getSize());
         j.setBorder(new LineBorder(new Color(255,158,0)));
-        j.setBounds(10, 240, 360, 25);
+        j.setBounds(10, 240, 350, 25);
         j.setMinimum(0);
         j.setMaximum(100);
         j.setStringPainted(true);
@@ -337,7 +335,6 @@ public class Window {
 
     public static class LoginPressed implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            System.out.println(siteMenu.getSelectedIndex());
 
             if(siteMenu.getSelectedIndex() != 1){
                 if(userText.getText().equals("")){
@@ -435,6 +432,29 @@ public class Window {
             System.exit(0);
 
         }
+    }
+
+
+
+    //Выводим sout в JtextField
+    public static class Echo extends FilterOutputStream {
+
+        private final JTextArea text;
+
+        public Echo(OutputStream out, JTextArea text) {
+            super(out);
+            if (text == null) throw new IllegalArgumentException("null text");
+            this.text = text;
+        }
+
+        @Override
+        public void write(int b) throws IOException {
+            super.write(b);
+            text.append(Character.toString((char) b));
+            // scroll to end?
+        }
+
+        // overwrite the other write methods for better performance
     }
 
 

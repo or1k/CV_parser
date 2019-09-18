@@ -12,6 +12,7 @@ import org.openqa.selenium.JavascriptException;
 import javax.swing.*;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -23,6 +24,7 @@ public class BrowseSummary {
      * BA- BossAZ
      * WU - Work Ua
      */
+
 
 
 
@@ -86,12 +88,10 @@ public class BrowseSummary {
             executeJavaScript("document.querySelector('.pagination li:last-of-type a').click();");
             counterOnPage =0;
 //            ids.clear();
-            System.out.println("KONEC");
         }
 
         if(counterOnPage == 0){
             getIds();
-            System.out.println("NA4ALO");
         }
 
         if(counterOnPage == getIds().size()){
@@ -125,6 +125,7 @@ public class BrowseSummary {
 
 
     public boolean grabCardsBossAz() throws InterruptedException, IOException {
+
         if (counterOnPage > 19) {
             executeJavaScript("document.querySelector('.next a[rel=next]').click();");
 //            getNextList().click();

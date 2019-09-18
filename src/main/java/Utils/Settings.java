@@ -46,7 +46,7 @@ public class Settings {
                 return true;
             }
         }catch (Exception ex){
-            System.out.println(ex.getMessage());
+
         }
         return false;
     }
