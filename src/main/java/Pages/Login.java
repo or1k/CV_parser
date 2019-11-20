@@ -18,6 +18,10 @@ public class Login {
 
     //tari@smart-mail.top
     //1q2w3e4r
+
+
+    //kegoyijox@mail-lab.net
+    //1q2w3e4r
     public BrowseSummary loginInAccount() {
         getEmail().val(Window.userText.getText());
         getPassword().val(String.valueOf(Window.passwordText.getPassword()));
