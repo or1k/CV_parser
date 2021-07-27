@@ -60,9 +60,6 @@ public class Window {
         frame = new JFrame("CV parser v" + numberVersion);
         frame.setPreferredSize(new Dimension(400,360));
 
-        // handle window close
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") +"\\src\\main\\resources\\apple-touch-icon.png");
-
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -80,7 +77,6 @@ public class Window {
         // display
         frame.getContentPane().setBackground(Color.red);
         frame.getContentPane().add(panel1);
-        frame.setIconImage(img.getImage());
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
